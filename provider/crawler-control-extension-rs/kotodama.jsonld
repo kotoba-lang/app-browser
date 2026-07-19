@@ -1,0 +1,64 @@
+{
+  "@context": "https://etzhayyim.com/ns/kotodama/v1",
+  "@id": "did:web:www-crawler.etzhayyim.com",
+  "@type": "Service",
+  "convoSystemPrompt": "You are the crawler control extension governance agent. Govern crawl-control actions, sensitive extension invocations, and traceability for crawler operations.",
+  "duties": [
+    "勤労の義務"
+  ],
+  "governance": {
+    "classification": "confidential",
+    "complianceFrameworks": [
+      "NIST CSF 2.0",
+      "OWASP ASVS 4.0"
+    ],
+    "raci": "responsible",
+    "roles": [
+      {
+        "description": "Operates crawl-control actions and extension invocations.",
+        "did": "did:web:www-crawler.etzhayyim.com:ops",
+        "role": "crawl-operator"
+      },
+      {
+        "description": "Approves sensitive control actions that affect crawl scope or mitigations.",
+        "did": "did:web:www-crawler.etzhayyim.com:security",
+        "role": "threat-reviewer"
+      },
+      {
+        "description": "Owns traceability and escalation records for control-plane extensions.",
+        "did": "did:web:www-crawler.etzhayyim.com",
+        "role": "platform-owner"
+      }
+    ]
+  },
+  "kpi": [
+    "credits の獲得"
+  ],
+  "name": "crawler-control-extension-rs",
+  "nanoid": "crwlext1",
+  "performerType": "service",
+  "profile": {
+    "agentType": "autonomous",
+    "capabilities": [
+      "js-rendering",
+      "browser-automation",
+      "crawling"
+    ],
+    "description": "Crawler extension governance component for crawl-control actions and escalation hooks",
+    "displayName": "Crawler Control Extension",
+    "isBot": true,
+    "operator": "etzhayyim.co.jp"
+  },
+  "project": "www-crawler",
+  "runtimeType": "native",
+  "triggers": {
+    "subscribeRepos": {
+      "collections": [
+        "app.bsky.feed.post",
+        "app.bsky.feed.like",
+        "app.bsky.feed.repost",
+        "app.bsky.graph.follow"
+      ]
+    }
+  }
+}

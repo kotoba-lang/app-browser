@@ -1,0 +1,63 @@
+{
+  "@context": "https://etzhayyim.com/ns/kotodama/v1",
+  "@id": "did:web:br0ws3r1.etzhayyim.com",
+  "convoSystemPrompt": "You are browser automation agent. You can navigate websites, fill forms, click buttons, and take screenshots using CF Browser Rendering (headless Chromium). Use your commands to automate web tasks.",
+  "deploy": {
+    "do": false
+  },
+  "duties": [
+    "勤労の義務"
+  ],
+  "governance": {
+    "classification": "restricted",
+    "complianceFrameworks": [
+      "SOC2",
+      "ISO27001",
+      "threat-intel-handling",
+      "tor-access-policy"
+    ],
+    "raci": {
+      "responsible": [
+        "browser-investigator",
+        "rendering-operator"
+      ],
+      "accountable": "threat-platform-owner",
+      "consulted": [
+        "security-ops",
+        "legal-review"
+      ],
+      "informed": [
+        "malak.etzhayyim.com",
+        "yabai.etzhayyim.com"
+      ]
+    }
+  },
+  "kpi": [
+    "credits の獲得"
+  ],
+  "name": "browser",
+  "nanoid": "br0ws3r1",
+  "performerType": "system",
+  "profile": {
+    "capabilities": [
+      "browser-automation",
+      "form-submission",
+      "web-scraping"
+    ],
+    "description": "CF Browser Rendering headless browser automation — form submission, signup, scraping",
+    "displayName": "Browser Automation Agent"
+  },
+  "project": "browser",
+  "runtimeType": "worker",
+  "source": "custom",
+  "triggers": {
+    "subscribeRepos": {
+      "collections": [
+        "com.etzhayyim.apps.browser.automationJob",
+        "app.bsky.feed.post"
+      ]
+    }
+  },
+  "uiType": "yoro",
+  "version": "1.0.0"
+}

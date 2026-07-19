@@ -1,0 +1,5 @@
+;; App-local clj-kondo config (ADR-2606280030).
+;; The browser-agent twin is JVM/bb-only (httpkit server, babashka.http-client,
+;; futures) — it is not a cljs/WASM target. Analyze the .cljc files as Clojure
+;; only so the cljs branch does not false-flag JVM core forms.
+{:cljc {:features #{:clj}}}

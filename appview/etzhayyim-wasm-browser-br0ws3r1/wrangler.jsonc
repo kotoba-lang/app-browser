@@ -1,0 +1,27 @@
+{
+  "name": "etzhayyim-browser-shell",
+  "main": "svelte/.svelte-kit/cloudflare/_worker.js",
+  "compatibility_date": "2026-03-19",
+  "compatibility_flags": ["nodejs_compat"],
+  "routes": [
+    { "pattern": "browser.etzhayyim.ai/*", "zone_name": "etzhayyim.ai" },
+    { "pattern": "br0ws3r1.etzhayyim.ai/*", "zone_name": "etzhayyim.ai" }
+  ],
+  "assets": {
+    "directory": "./svelte/.svelte-kit/cloudflare/client",
+    "binding": "ASSETS",
+    "html_handling": "auto-trailing-slash",
+    "not_found_handling": "none"
+  },
+  "vars": {
+    "APP_VERSION": "1.0.0",
+    "APP_NAME": "etzhayyim-wasm-browser-br0ws3r1",
+    "BROWSER_AGENT_URL": "https://browser-agent.etzhayyim.ai",
+    "SEARXNG_URL": "https://searxng.etzhayyim.ai",
+    "BROWSERLESS_URL": "https://browserless.etzhayyim.ai",
+    "ACTOR_DID": "did:web:browser.etzhayyim.ai"
+  },
+  "observability": {
+    "enabled": true
+  }
+}

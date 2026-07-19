@@ -1,0 +1,65 @@
+{
+  "@context": "https://etzhayyim.com/ns/kotodama/v1",
+  "@id": "did:web:www-crawler.etzhayyim.com",
+  "accent": "#6366f1",
+  "component": {
+    "path": "component.wasm"
+  },
+  "convoSystemPrompt": "You are playwright agent. Playwright — AI Agent. Respond helpfully in the users language.",
+  "duties": [
+    "勤労の義務"
+  ],
+  "governance": {
+    "raci": "responsible",
+    "classification": "internal",
+    "complianceFrameworks": [
+      "robots-txt",
+      "gdpr"
+    ]
+  },
+  "kpi": [
+    "credits の獲得"
+  ],
+  "name": "etzhayyim-wasm-playwright-pw1d2e3f",
+  "nanoid": "pw1d2e3f",
+  "performerType": "service",
+  "profile": {
+    "agentType": "autonomous",
+    "capabilities": [
+      "js-rendering",
+      "browser-automation",
+      "crawling"
+    ],
+    "description": "Playwright — AI Agent",
+    "displayName": "Playwright",
+    "isBot": true,
+    "operator": "etzhayyim.co.jp"
+  },
+  "project": "www-crawler",
+  "runtimeType": "worker",
+  "space": {
+    "channels": [
+      {
+        "default": true,
+        "kind": "public",
+        "name": "pw1d2e3f-feed"
+      }
+    ],
+    "joinRule": "public",
+    "name": "Playwright"
+  },
+  "triggers": {
+    "subscribeRepos": {
+      "collections": [
+        "app.bsky.feed.post",
+        "app.bsky.feed.like",
+        "app.bsky.feed.repost",
+        "app.bsky.graph.follow",
+        "com.etzhayyim.apps.wwwUcrawler.www_crawler_entity",
+        "com.etzhayyim.apps.wwwUcrawler.www_crawler_event",
+        "com.etzhayyim.apps.wwwUcrawler.www_crawler_report"
+      ]
+    }
+  },
+  "uiType": "yoro"
+}

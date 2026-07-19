@@ -1,0 +1,99 @@
+{
+  "@context": "https://etzhayyim.com/ns/kotodama/v1",
+  "@id": "did:web:webpage.etzhayyim.com",
+  "component": {
+    "env": {},
+    "path": "component.wasm"
+  },
+  "convoSystemPrompt": "You are webpage agent. Web crawl, darkweb monitoring, phishing detection, LLM entity extraction agent. Respond helpfully in the users language.",
+  "deploy": {},
+  "duties": [
+    "勤労の義務"
+  ],
+  "governance": {
+    "raci": "responsible",
+    "classification": "internal",
+    "complianceFrameworks": [
+      "robots-txt",
+      "gdpr"
+    ]
+  },
+  "interfaces": {
+    "package": "etzhayyim:crawler@1.0.0",
+    "provides": [
+      "etzhayyim:crawler/crawl-engine@1.0.0",
+      "etzhayyim:crawler/darkweb-engine@1.0.0"
+    ]
+  },
+  "kpi": [
+    "credits の獲得"
+  ],
+  "name": "webpage",
+  "nanoid": "cr4wl3r0",
+  "performerType": "service",
+  "profile": {
+    "agentType": "autonomous",
+    "capabilities": [
+      "js-rendering",
+      "browser-automation",
+      "crawling"
+    ],
+    "category": "intelligence",
+    "description": "Web crawl, darkweb monitoring, phishing detection, LLM entity extraction agent",
+    "displayName": "WWW Crawler Intelligence"
+  },
+  "project": "www-crawler",
+  "runtimeType": "worker",
+  "space": {
+    "channels": [
+      {
+        "default": true,
+        "description": "Crawl results and extracted entities",
+        "kind": "public",
+        "name": "crawl-feed"
+      },
+      {
+        "description": "Crawl job status changes and anomaly alerts",
+        "kind": "public",
+        "name": "crawl-alerts"
+      },
+      {
+        "description": "Darkweb crawl results, discovered .onion sites, and content summaries",
+        "kind": "public",
+        "name": "darkweb-feed"
+      },
+      {
+        "description": "High-confidence phishing site detections with screenshots and LLM scoring",
+        "kind": "public",
+        "name": "phishing-alerts"
+      }
+    ],
+    "description": "Web crawl results, entity extraction, darkweb monitoring, and phishing detection",
+    "historyVisibility": "world-readable",
+    "joinRule": "public",
+    "name": "WWW Crawler Intelligence"
+  },
+  "triggers": {
+    "http": {
+      "listen": "0.0.0.0:8080",
+      "routes": [
+        "/api/grpc/...",
+        "/health",
+        "/healthz",
+        "/readyz"
+      ]
+    },
+    "subscribeRepos": {
+      "collections": [
+        "app.bsky.feed.like",
+        "app.bsky.feed.post",
+        "app.bsky.feed.repost",
+        "app.bsky.graph.follow",
+        "com.etzhayyim.apps.wwwUcrawler.www_crawler_entity",
+        "com.etzhayyim.apps.wwwUcrawler.www_crawler_event",
+        "com.etzhayyim.apps.wwwUcrawler.www_crawler_report"
+      ]
+    }
+  },
+  "uiType": "yoro"
+}

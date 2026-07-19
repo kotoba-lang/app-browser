@@ -1,0 +1,73 @@
+{
+  "@context": "https://1.etzhayyim.com/project",
+  "@type": "Project",
+  "name": "etzhayyim-project-www-crawler",
+  "description": "Go + legacy runtime web crawler: scheduler/frontier, fetcher+extractor, indexer with scale-to-zero",
+  "category": "etzhayyim-project-workers",
+  "components": {
+    "app": {
+      "appId": "www-crawler",
+      "tier": "event-driven",
+      "stack": "go",
+      "keda": true,
+      "routes": [
+        {
+          "host": "etzhayyim.com",
+          "paths": [
+            "/o0dqx491/api/"
+          ]
+        }
+      ]
+    },
+    "ui": {
+      "appId": "crawler-ui",
+      "tier": "static",
+      "stack": "sveltekit",
+      "routes": [
+        {
+          "host": "etzhayyim.com",
+          "paths": [
+            "/o0dqx491/"
+          ]
+        }
+      ]
+    }
+  },
+  "rdfUnifiedDocuments": {
+    "@type": "Dataset",
+    "name": "Unified top-level RDF/JSON-LD documents",
+    "description": "Consolidated from project top-level *.jsonld files except PROJECT.jsonld.",
+    "documents": [
+      {
+        "fileName": "scheduler.jsonld",
+        "content": {
+          "@context": [
+            "https://schema.org/",
+            {
+              "etzhayyim": "https://etzhayyim.com/schemas/",
+              "capabilities": "etzhayyim:capabilities",
+              "survivalIndicators": "etzhayyim:survivalIndicators",
+              "scheduler": "etzhayyim:scheduler",
+              "milestones": "etzhayyim:milestones",
+              "blockers": "etzhayyim:blockers",
+              "dependsOn": {
+                "@id": "etzhayyim:dependsOn",
+                "@type": "@id"
+              },
+              "ingestKey": "etzhayyim:ingestKey",
+              "window": "etzhayyim:window",
+              "valueUpdatedAt": "etzhayyim:valueUpdatedAt"
+            }
+          ],
+          "@type": "CreativeWork",
+          "name": "etzhayyim-project-www-crawler Scheduler",
+          "identifier": "etzhayyim-project-www-crawler/scheduler",
+          "description": "Project schedule (milestones) and blockers.",
+          "dateCreated": "2026-02-15T04:25:26+00:00",
+          "milestones": [],
+          "blockers": []
+        }
+      }
+    ]
+  }
+}

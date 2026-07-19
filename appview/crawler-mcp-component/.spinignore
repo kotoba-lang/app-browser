@@ -1,0 +1,10 @@
+# Keep Svelte static output (static/index.html + static/_app) in Spin OCI.
+# Root .gitignore excludes static/_app, so we use a local .spinignore to control packaging.
+
+.DS_Store
+**/.DS_Store
+
+# Exclude local dev caches and sources not needed at runtime package time.
+svelte/node_modules/
+svelte/.svelte-kit/
+_tmp_test-spin-kv/

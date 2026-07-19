@@ -1,0 +1,11 @@
+;; Scoped bb.edn for the browser-agent clj twin (ADR-2606280030).
+;; All deps (http-client, cheshire, httpkit, clojure.test) are bundled in
+;; babashka — no external deps, no langgraph-clj needed (the single graph
+;; back-edge is a plain functional runner). Does NOT touch the repo-root bb.edn.
+{:paths ["src-clj" "test"]
+ :tasks
+ {test   {:doc "Run the clojure.test suite under bb."
+          :task (load-file "run_tests.clj")}
+  serve  {:doc "Start the httpkit SSE server (PORT env, default 8000)."
+          :requires ([etzhayyim.browser-agent.server :as s])
+          :task (apply s/-main *command-line-args*)}}}

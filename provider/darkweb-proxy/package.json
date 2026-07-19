@@ -1,0 +1,22 @@
+{
+  "name": "darkweb-proxy",
+  "version": "0.1.0",
+  "description": "Tor + Playwright HTTP fetch proxy for onion.etzhayyim.com",
+  "type": "module",
+  "main": "dist/server.js",
+  "scripts": {
+    "build": "tsc",
+    "start": "node --enable-source-maps dist/server.js",
+    "dev": "tsx src/server.ts"
+  },
+  "dependencies": {
+    "@cloudflare/containers": "^0.3.2",
+    "fastify": "^4.27.0",
+    "playwright": "1.50.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "tsx": "^4.22.4",
+    "typescript": "^5.4.0"
+  }
+}

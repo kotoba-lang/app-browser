@@ -1,0 +1,13 @@
+[package]
+name = "crawler-control-rs"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+path = "src/lib.rs"
+
+[dependencies]
+crawler-frontier-rs = { path = "../crawler-frontier-rs" }
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+thiserror = "2"

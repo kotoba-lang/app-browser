@@ -1,0 +1,47 @@
+{
+  "@context": "https://etzhayyim.com/ns/kotodama/v1",
+  "@id": "did:web:crawler-v2.etzhayyim.com",
+  "@type": "Service",
+  "convoSystemPrompt": "You are crawler-control agent. Web crawl engine control plane for crawl orchestration, darkweb monitoring, and phishing detection. Respond helpfully in the user's language.",
+  "deploy": {
+    "dockerfile": "Dockerfile",
+    "healthCheck": "/health",
+    "sleepAfter": "10m"
+  },
+  "duties": [
+    "勤労の義務"
+  ],
+  "governance": {
+    "classification": "confidential",
+    "complianceFrameworks": [],
+    "raci": "responsible"
+  },
+  "kpi": [
+    "credits の獲得"
+  ],
+  "name": "crawler-control-http-rs",
+  "nanoid": "cr4wl3r0-v2",
+  "performerType": "service",
+  "profile": {
+    "capabilities": [
+      "js-rendering",
+      "browser-automation",
+      "crawling"
+    ],
+    "description": "Web crawl engine control plane — crawl orchestration, darkweb monitoring, phishing detection",
+    "displayName": "Crawler Control"
+  },
+  "project": "crawler-v2",
+  "runtimeType": "native",
+  "triggers": {
+    "subscribeRepos": {
+      "collections": [
+        "app.bsky.feed.post",
+        "app.bsky.feed.like",
+        "app.bsky.feed.repost",
+        "app.bsky.graph.follow"
+      ]
+    }
+  },
+  "uiType": "yoro"
+}

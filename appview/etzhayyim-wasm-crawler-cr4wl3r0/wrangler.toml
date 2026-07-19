@@ -1,0 +1,47 @@
+name = "kotodama-www-crawler"
+main = "src/app.ts"
+compatibility_date = "2026-03-19"
+compatibility_flags = ["nodejs_compat"]
+
+workers_dev = true
+
+routes = [
+  { pattern = "crawler.etzhayyim.com/*", zone_name = "etzhayyim.com" },
+  { pattern = "cr4wl3r0.etzhayyim.com/*", zone_name = "etzhayyim.com" }
+]
+
+[observability]
+enabled = true
+
+[vars]
+APP_VERSION = "0.2.0"
+APP_TEMPLATE = "canvas"
+APP_SOURCE = "custom"
+SPIN_VARIABLE_PERFORMER_ID = "cr4wl3r0"
+
+[[services]]
+binding = "PDS_SERVICE"
+service = "kotodama-pds"
+
+[[secrets_store_secrets]]
+binding = "SS_OPENROUTER_API_KEY"
+store_id = "1824561668fe47cc9127d493961885af"
+secret_name = "openrouter_api_key"
+
+[[r2_buckets]]
+binding = "CDN_R2"
+bucket_name = "etzhayyim-graph"
+
+[durable_objects]
+bindings = [
+  { name = "KOTODAMA", class_name = "KotodamaContainer" }
+]
+
+[[migrations]]
+tag = "v1"
+new_classes = ["KotodamaContainer"]
+
+[[migrations]]
+tag = "v2"
+renamed_classes = [{from = "KotodamaContainer", to = "KotodamaContainerLegacy"}]
+new_sqlite_classes = ["KotodamaContainer"]

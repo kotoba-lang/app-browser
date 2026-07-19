@@ -1,0 +1,65 @@
+{
+  "@context": "https://etzhayyim.com/ns/kotodama/v1",
+  "@id": "did:web:www-crawler.etzhayyim.com",
+  "accent": "#6366f1",
+  "component": {
+    "path": "component.wasm"
+  },
+  "convoSystemPrompt": "You are fetch agent. Fetch — AI Agent. Respond helpfully in the users language.",
+  "duties": [
+    "勤労の義務"
+  ],
+  "governance": {
+    "raci": "responsible",
+    "classification": "internal",
+    "complianceFrameworks": [
+      "robots-txt",
+      "gdpr"
+    ]
+  },
+  "kpi": [
+    "credits の獲得"
+  ],
+  "name": "etzhayyim-wasm-fetch-ft1u2v3w",
+  "nanoid": "ft1u2v3w",
+  "performerType": "service",
+  "profile": {
+    "agentType": "autonomous",
+    "capabilities": [
+      "js-rendering",
+      "browser-automation",
+      "crawling"
+    ],
+    "description": "Fetch — AI Agent",
+    "displayName": "Fetch",
+    "isBot": true,
+    "operator": "etzhayyim.co.jp"
+  },
+  "project": "www-crawler",
+  "runtimeType": "worker",
+  "space": {
+    "channels": [
+      {
+        "default": true,
+        "kind": "public",
+        "name": "ft1u2v3w-feed"
+      }
+    ],
+    "joinRule": "public",
+    "name": "Fetch"
+  },
+  "triggers": {
+    "subscribeRepos": {
+      "collections": [
+        "app.bsky.feed.post",
+        "app.bsky.feed.like",
+        "app.bsky.feed.repost",
+        "app.bsky.graph.follow",
+        "com.etzhayyim.apps.wwwUcrawler.www_crawler_entity",
+        "com.etzhayyim.apps.wwwUcrawler.www_crawler_event",
+        "com.etzhayyim.apps.wwwUcrawler.www_crawler_report"
+      ]
+    }
+  },
+  "uiType": "yoro"
+}

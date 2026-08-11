@@ -19,7 +19,7 @@ written in `.cljc`; decision-free mechanism is the documented exception.
 | `crawler-frontier-rs` | 237 | the crawl policy: depth, page and domain budgets, dedup, FIFO order | **ported** → `provider/crawler-frontier` (`.cljc`), parity transcript in `frontier_test.cljc` |
 | `crawler-indexer-rs` | 210 | in-memory index + 64-dim embedding + search | **ported** → `provider/crawler-indexer` (`.cljc`). Parity holds for everything specified; the embedding deliberately does NOT match — see below |
 | `crawler-fetch-rs` | 139 | reqwest HTTP client | mechanism (transport). `capability-http-fetch` is the shape a port would take, not a `.cljc` rewrite of reqwest |
-| `crawler-control-rs` | 724 | orchestrator | unexamined; expect a decision core inside a mechanism shell |
+| `crawler-control-rs` | 724 | the crawler's policy: job lifecycle, envelope routing, page reading | **examined — it is ALL decision.** Its dependencies are the frontier, serde and thiserror: no HTTP, no async, no I/O. Page reading ported → `provider/crawler-control` (`.cljc`); the job state machine is the remaining slice |
 | `crawler-control-http-rs` | 537 | HTTP server around the above | mechanism |
 | `crawler-control-extension-rs` | 310 | browser-extension bridge | mechanism |
 
@@ -60,3 +60,30 @@ case-insensitivity, Unicode tokenization, empty-query and zero-limit answers,
 upsert-by-id-in-place, and paging over matches rather than the corpus. The
 tests assert the matching SET, not that order, because asserting the order
 would pin this port to a number `rustup update` may change.
+
+
+### crawler-control-rs is not an orchestrator
+
+It was listed above as one on the strength of its name. Reading it: the
+dependencies are `crawler-frontier-rs`, `serde` and `thiserror`. There is no
+transport in it at all — fetching and indexing arrive through `FetchGateway` /
+`IndexGateway` traits the caller supplies. So the whole 724 lines are policy,
+and the ADR reaches all of it.
+
+Ported so far (`provider/crawler-control`, `etzhayyim.crawler.page`): what a
+page yields — `extract-title`, `summarize-text`, `extract-links`,
+`absolutize-url`, `url-host`, `paginate`. Three of those hold behaviour a
+reader would correct, so the tests pin them:
+
+  * A document-relative href (`page.html`, `../up`) is DROPPED. The crate has
+    no path joining. **A site that links relatively is invisible to this
+    crawler** — worth knowing before trusting a coverage number.
+  * An unquoted `href=` is skipped and the scan CONTINUES. Bailing out there
+    instead would silently hide every link after the first sloppy tag.
+  * The summary cap is 160 BYTES, not characters, so Japanese summaries are
+    about a third the length an English reading of the code suggests.
+
+Remaining slice: the job state machine — `start_job`, `cancel_job`,
+`ingest_result`, `process_next`, `get_stats`, `route_extension`. It is stateful
+but still pure, and it sits on the frontier that is already ported, so it has
+no blocker beyond size.

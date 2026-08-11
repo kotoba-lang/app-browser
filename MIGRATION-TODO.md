@@ -17,7 +17,7 @@ written in `.cljc`; decision-free mechanism is the documented exception.
 | crate | lines | what it is | status |
 |---|---|---|---|
 | `crawler-frontier-rs` | 237 | the crawl policy: depth, page and domain budgets, dedup, FIFO order | **ported** → `provider/crawler-frontier` (`.cljc`), parity transcript in `frontier_test.cljc` |
-| `crawler-indexer-rs` | 210 | in-memory index + 64-dim embedding + search. `std::hash` and serde only — no I/O | **next**: same shape as the frontier, no blocker found |
+| `crawler-indexer-rs` | 210 | in-memory index + 64-dim embedding + search | **ported** → `provider/crawler-indexer` (`.cljc`). Parity holds for everything specified; the embedding deliberately does NOT match — see below |
 | `crawler-fetch-rs` | 139 | reqwest HTTP client | mechanism (transport). `capability-http-fetch` is the shape a port would take, not a `.cljc` rewrite of reqwest |
 | `crawler-control-rs` | 724 | orchestrator | unexamined; expect a decision core inside a mechanism shell |
 | `crawler-control-http-rs` | 537 | HTTP server around the above | mechanism |
@@ -34,3 +34,29 @@ where it "obviously" belongs turns the suite red.
 
 The Rust crates stay for now: they are wired into the running crawler. What has
 changed is that the frontier's policy is no longer only expressible in Rust.
+
+
+### The indexer's embedding is where parity legitimately stops
+
+`crawler-indexer-rs` buckets a token with `std::collections::hash_map::
+DefaultHasher`. Rust does not specify that algorithm and does not promise it
+across releases, so which of the 64 buckets a token lands in is a property of
+the toolchain rather than of the token. Two builds of the same crate are not
+guaranteed to produce comparable embeddings.
+
+That is a latent defect, not a detail to reproduce. Measured: over two
+documents with identical lexical scores the crate returned `["2", "1"]`, an
+order decided entirely by that hash.
+
+So the port uses FNV-1a 32 — written out, a function of the bytes, the same on
+every runtime and version. 32 rather than 64 because ClojureScript has no
+64-bit integer, and a `.cljc` FNV-1a 64 would silently degrade into doubles on
+one of the two hosts.
+
+The consequence is stated rather than hidden: **the port's ranking among
+documents with equal lexical scores differs from the crate's.** Everything
+specified is identical and pinned — the 400/250/150/100 weights,
+case-insensitivity, Unicode tokenization, empty-query and zero-limit answers,
+upsert-by-id-in-place, and paging over matches rather than the corpus. The
+tests assert the matching SET, not that order, because asserting the order
+would pin this port to a number `rustup update` may change.

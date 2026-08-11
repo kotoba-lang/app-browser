@@ -19,7 +19,7 @@ written in `.cljc`; decision-free mechanism is the documented exception.
 | `crawler-frontier-rs` | 237 | the crawl policy: depth, page and domain budgets, dedup, FIFO order | **ported** → `provider/crawler-frontier` (`.cljc`), parity transcript in `frontier_test.cljc` |
 | `crawler-indexer-rs` | 210 | in-memory index + 64-dim embedding + search | **ported** → `provider/crawler-indexer` (`.cljc`). Parity holds for everything specified; the embedding deliberately does NOT match — see below |
 | `crawler-fetch-rs` | 139 | reqwest HTTP client | mechanism (transport). `capability-http-fetch` is the shape a port would take, not a `.cljc` rewrite of reqwest |
-| `crawler-control-rs` | 724 | the crawler's policy: job lifecycle, envelope routing, page reading | **examined — it is ALL decision.** Its dependencies are the frontier, serde and thiserror: no HTTP, no async, no I/O. Page reading ported → `provider/crawler-control` (`.cljc`); the job state machine is the remaining slice |
+| `crawler-control-rs` | 724 | the crawler's policy: job lifecycle, envelope routing, page reading | **examined — it is ALL decision.** Its dependencies are the frontier, serde and thiserror: no HTTP, no async, no I/O. **fully ported** → `provider/crawler-control` (`.cljc`): page reading and the job state machine |
 | `crawler-control-http-rs` | 537 | HTTP server around the above | mechanism |
 | `crawler-control-extension-rs` | 310 | browser-extension bridge | mechanism |
 
@@ -83,7 +83,31 @@ reader would correct, so the tests pin them:
   * The summary cap is 160 BYTES, not characters, so Japanese summaries are
     about a third the length an English reading of the code suggests.
 
-Remaining slice: the job state machine — `start_job`, `cancel_job`,
-`ingest_result`, `process_next`, `get_stats`, `route_extension`. It is stateful
-but still pure, and it sits on the frontier that is already ported, so it has
-no blocker beyond size.
+The job state machine is now ported too (`etzhayyim.crawler.control`), and the
+gateways did not come with it. `process_next` takes `FetchGateway` and
+`IndexGateway` and calls them in the middle of a state transition — dependency
+injection doing the job of a boundary, since the effect is still inside the
+transition. The port splits the step where the effect actually is:
+
+    (next-target svc job-id)                 -> what to fetch, or why not
+    ... the caller fetches ...
+    (absorb-fetched svc job-id target page)  -> next state, result, document
+
+so the caller owns the fetching and both halves are testable without a fake.
+
+Two behaviours the transcript caught that reading would not have:
+
+  * **`ingest_result` consumes a frontier item.** It sets `Running` and then
+    calls `frontier_done_success`, which dequeues, marks success, and completes
+    the job if that emptied the queue. Measured, the job reports `Completed`
+    after one step and one ingest. The first draft of the port set `Running`
+    and stopped — it would have drifted on the first ingest.
+  * **`search_results` searches EVERY job**, not the one you asked about: it
+    iterates `self.jobs.values()`. Anyone assuming per-job scoping is wrong,
+    and now the namespace says so.
+
+All six crates are accounted for. Three are ported (frontier, indexer,
+control); three are transport (`crawler-fetch-rs`, `crawler-control-http-rs`,
+`crawler-control-extension-rs`) and stay. The Rust remains wired into the
+running crawler; what changed is that its policy is no longer expressible only
+in Rust.

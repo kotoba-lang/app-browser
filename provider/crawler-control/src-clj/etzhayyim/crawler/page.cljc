@@ -14,7 +14,7 @@
   SSoT INVARIANT: these and their counterparts in
   `provider/crawler-control-rs/src/lib.rs` must agree. The expectations in
   `page_test.cljc` were produced by RUNNING the crate."
-  (:require [clojure.string :as str]))
+  (:require [kotoba.lang.text :as str]))
 
 (defn- utf8-length [s]
   #?(:clj (alength (.getBytes ^String s "UTF-8"))
@@ -61,7 +61,7 @@
   yields nil rather than the rest of the document."
   [content]
   (let [c (or content "")
-        lower (str/lower-case c)]
+        lower (str/lower c)]
     (when-let [start (str/index-of lower "<title>")]
       (let [from (+ start 7)]
         (when-let [end (str/index-of (subs lower from) "</title>")]
@@ -99,7 +99,7 @@
   hide the links after it. Links that cannot be absolutised are dropped."
   [base-url content]
   (let [c (or content "")
-        lower (str/lower-case c)
+        lower (str/lower c)
         n (count c)]
     (loop [cursor 0 out []]
       (if-let [rel (str/index-of (subs lower cursor) "href=")]

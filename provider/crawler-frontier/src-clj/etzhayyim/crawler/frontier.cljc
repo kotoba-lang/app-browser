@@ -29,7 +29,7 @@
     a plain `false` mean different things to the caller, and collapsing them
     loses the distinction between \"this crawl is over its limit\" and \"we
     already have that one\"."
-  (:require [clojure.string :as str]))
+  (:require [kotoba.lang.text :as str]))
 
 ;; ── construction ────────────────────────────────────────────────────────────
 

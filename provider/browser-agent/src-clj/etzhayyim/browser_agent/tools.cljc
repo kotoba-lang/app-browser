@@ -8,7 +8,7 @@
   collapsed. All network errors are swallowed to [] / \"\" exactly like the
   python (which returned empty on any exception)."
   (:require [cheshire.core :as json]
-            [clojure.string :as str]))
+            [kotoba.lang.text :as str]))
 
 ;; SearXNG meta search (internal, no API key required)
 (def default-config

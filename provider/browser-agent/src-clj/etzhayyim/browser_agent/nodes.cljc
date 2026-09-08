@@ -10,7 +10,7 @@
     ADR-2605215000 (etzhayyim inference = Murakumo only) `LLM_BASE_URL` should
     point at the Murakumo loopback; tests rebind `*chat-complete*`."
   (:require [cheshire.core :as json]
-            [clojure.string :as str]
+            [kotoba.lang.text :as str]
             [etzhayyim.browser-agent.state :as state]
             [etzhayyim.browser-agent.tools :as tools]))
 

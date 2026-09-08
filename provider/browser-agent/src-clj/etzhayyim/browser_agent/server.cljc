@@ -12,7 +12,7 @@
   chat seam is non-streaming, so token-level events are intentionally dropped
   (phase/source/section/error/DONE preserved)."
   (:require [cheshire.core :as json]
-            [clojure.string :as str]
+            [kotoba.lang.text :as str]
             [etzhayyim.browser-agent.graph :as graph]
             [etzhayyim.browser-agent.state :as state]
             [org.httpkit.server :as hk]))

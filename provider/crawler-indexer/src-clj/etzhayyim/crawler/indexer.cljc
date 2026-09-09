@@ -32,7 +32,7 @@
   deliberately NOT bit-identical to the Rust in the semantic component. The
   lexical component, the ranking rule, the tie order and the upsert semantics
   ARE identical, and are pinned against the crate in the tests."
-  (:require [kotoba.lang.text :as str]))
+  (:require [clojure.string :as str]))
 
 (def embedding-dim 64)
 
@@ -46,7 +46,7 @@
   Japanese into nothing and quietly make every such document embed as zero."
   [text]
   (->> (re-seq #"[\p{L}\p{N}]+" (or text ""))
-       (map str/lower)
+       (map str/lower-case)
        vec))
 
 (def ^:private fnv-offset-32
@@ -116,11 +116,11 @@
   two-word query therefore scores zero on a document holding both words apart,
   which is the crate's behaviour and is why the semantic term exists at all."
   [doc query]
-  (let [needle (str/lower (or query ""))]
+  (let [needle (str/lower-case (or query ""))]
     (if (= "" needle)
       0
       (reduce (fn [score [k weight]]
-                (if (str/includes? (str/lower (or (get doc k) "")) needle)
+                (if (str/includes? (str/lower-case (or (get doc k) "")) needle)
                   (+ score weight)
                   score))
               0

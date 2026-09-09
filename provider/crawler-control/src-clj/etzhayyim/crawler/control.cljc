@@ -24,7 +24,7 @@
 
   SSoT INVARIANT with `provider/crawler-control-rs/src/lib.rs`; expectations in
   `control_test.cljc` came from running it."
-  (:require [kotoba.lang.text :as str]
+  (:require [clojure.string :as str]
             [etzhayyim.crawler.frontier :as frontier]
             [etzhayyim.crawler.page :as page]))
 
@@ -115,9 +115,9 @@
   Order follows map iteration, which is unspecified in both languages; callers
   that need determinism must sort."
   [svc query offset limit]
-  (let [needle (str/lower (or query ""))
+  (let [needle (str/lower-case (or query ""))
         hit? (fn [doc]
-               (some #(str/includes? (str/lower (or (get doc %) "")) needle)
+               (some #(str/includes? (str/lower-case (or (get doc %) "")) needle)
                      [:title :snippet :content :url]))
         matches (vec (for [record (vals (:jobs svc))
                            doc (:indexed record)

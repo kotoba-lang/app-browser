@@ -1,5 +1,5 @@
 ;; run_tests.clj — repo rule: tests run via clj/bb, not .sh.
-;;   bb run_tests.clj      (or: bb test)
+;;   kbb run_tests.cljk      (or: bb test)
 (require '[babashka.http-client :as http]
          '[kotoba.lang.text :as str]
          '[clojure.test :as t]

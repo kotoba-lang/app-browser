@@ -1,4 +1,4 @@
-#!/usr/bin/env bb
+#!/usr/bin/env kbb
 ;; bb-native runner for the indexer port (repo convention: operational code is
 ;; clj/bb, no shell).
 (require '[babashka.classpath :as cp] '[babashka.fs :as fs] '[clojure.test :as t])

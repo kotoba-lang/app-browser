@@ -1,7 +1,7 @@
 (ns etzhayyim.browser-agent.server
   "HTTP server — faithful clj port of server.py (aiohttp SSE) to httpkit.
 
-  aiohttp.web -> org.httpkit.server (bb built-in). Routes:
+  aiohttp.web -> org.httpkit.server (kbb -M:built-in). Routes:
     GET  /health  -> {:ok true :app \"browser-agent\"}
     POST /search  -> text/event-stream of {type ...} events, terminated by
                      `data: [DONE]`.

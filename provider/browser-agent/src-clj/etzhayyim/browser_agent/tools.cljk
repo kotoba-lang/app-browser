@@ -1,9 +1,9 @@
 (ns etzhayyim.browser-agent.tools
   "Web search + page fetch tools — faithful clj port of tools.py.
 
-  httpx.AsyncClient -> babashka.http-client (bb built-in); json -> cheshire;
+  httpx.AsyncClient -> babashka.http-client (kbb -M:built-in); json -> cheshire;
   BeautifulSoup text extraction -> a regex tag-stripper (`extract-text`) since
-  bb has no jsoup/bs4 — script/style/nav/footer/aside are dropped with their
+  kbb -M:has no jsoup/bs4 — script/style/nav/footer/aside are dropped with their
   content, remaining tags removed, a few HTML entities decoded, whitespace
   collapsed. All network errors are swallowed to [] / \"\" exactly like the
   python (which returned empty on any exception)."

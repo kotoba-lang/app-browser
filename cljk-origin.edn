@@ -1,0 +1,23 @@
+{:format :kotoba.cljk-origin/v1
+ :renamed-on "2026-09-11"
+ :decision "adr-2609111500-cljk-rename-all-clojure-source (com-junkawasaki/root 90-docs/adr; owner instruction 2026-09-11)"
+ :rule "value = the extension the file had before the rename. A path ending in .clj.cljk or .cljs.cljk kept it in the name because both platform files existed (or the plain target was taken)."
+ :origins
+ {"provider/browser-agent/run_tests.cljk" ".clj"
+  "provider/browser-agent/src-clj/etzhayyim/browser_agent/graph.cljk" ".cljc"
+  "provider/browser-agent/src-clj/etzhayyim/browser_agent/nodes.cljk" ".cljc"
+  "provider/browser-agent/src-clj/etzhayyim/browser_agent/server.cljk" ".cljc"
+  "provider/browser-agent/src-clj/etzhayyim/browser_agent/state.cljk" ".cljc"
+  "provider/browser-agent/src-clj/etzhayyim/browser_agent/tools.cljk" ".cljc"
+  "provider/browser-agent/test/etzhayyim/browser_agent/core_test.cljk" ".cljc"
+  "provider/crawler-control/run_tests.cljk" ".clj"
+  "provider/crawler-control/src-clj/etzhayyim/crawler/control.cljk" ".cljc"
+  "provider/crawler-control/src-clj/etzhayyim/crawler/page.cljk" ".cljc"
+  "provider/crawler-control/test-clj/etzhayyim/crawler/control_test.cljk" ".cljc"
+  "provider/crawler-control/test-clj/etzhayyim/crawler/page_test.cljk" ".cljc"
+  "provider/crawler-frontier/run_tests.cljk" ".clj"
+  "provider/crawler-frontier/src-clj/etzhayyim/crawler/frontier.cljk" ".cljc"
+  "provider/crawler-frontier/test-clj/etzhayyim/crawler/frontier_test.cljk" ".cljc"
+  "provider/crawler-indexer/run_tests.cljk" ".clj"
+  "provider/crawler-indexer/src-clj/etzhayyim/crawler/indexer.cljk" ".cljc"
+  "provider/crawler-indexer/test-clj/etzhayyim/crawler/indexer_test.cljk" ".cljc"}}

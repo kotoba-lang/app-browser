@@ -1,4 +1,4 @@
-#!/usr/bin/env bb
+#!/usr/bin/env kbb
 (require '[babashka.classpath :as cp] '[babashka.fs :as fs] '[clojure.test :as t])
 (let [here (fs/parent (fs/absolutize *file*))]
   (cp/add-classpath (str (fs/path here "src-clj")))

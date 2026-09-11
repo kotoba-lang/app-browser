@@ -1,4 +1,4 @@
-#!/usr/bin/env bb
+#!/usr/bin/env kbb
 ;; bb-native runner for the frontier port (repo convention: operational code is
 ;; clj/bb, no shell). Classpath is derived from this file's location so the
 ;; namespaces resolve without a --classpath flag.

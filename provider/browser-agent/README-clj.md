@@ -22,7 +22,7 @@ All deps are bundled in babashka — no external deps, no langgraph-clj needed.
 ## Run
 
 ```bash
-bb test          # clojure.test suite (offline; network stubbed)
+kbb -M:test          # clojure.test suite (offline; network stubbed)
 PORT=8000 bb serve
 ```
 

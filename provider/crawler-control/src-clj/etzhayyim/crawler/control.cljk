@@ -18,7 +18,7 @@
     ... the caller fetches ...
     (absorb-fetched svc job-id target page) -> next state + result + document
 
-  which is the `state + event -> next-state + effects` shape CLAUDE.md asks
+  which is the `state + event -> next-state + effects` shape AGENTS.md asks
   for. The caller owns the fetching, and both halves are testable without a
   fake gateway.
 

@@ -9,7 +9,7 @@
 
   The shape changes on the way over, deliberately. The Rust mutates a struct;
   here every operation is `state -> {:state … :result …}`, which is the
-  `state + event -> next-state` form CLAUDE.md asks for. A frontier is a thing
+  `state + event -> next-state` form AGENTS.md asks for. A frontier is a thing
   you want to snapshot, replay and diff — three limits, a queue and two seen
   sets — and a value gives you that for free.
 

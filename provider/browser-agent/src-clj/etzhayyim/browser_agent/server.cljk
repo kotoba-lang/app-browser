@@ -25,7 +25,7 @@
    :quality-check "done"})
 
 (def ^:private default-cors-origins
-  "First-party origins permitted cross-origin access (project CLAUDE.md app
+  "First-party origins permitted cross-origin access (project AGENTS.md app
    domains). Override via BROWSER_AGENT_CORS_ORIGINS (comma/space separated)."
   #{"https://browser.etzhayyim.com"
     "https://cr4wl3r0.etzhayyim.com"

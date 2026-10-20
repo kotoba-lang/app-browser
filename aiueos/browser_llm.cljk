@@ -1,0 +1,73 @@
+(ns browser.llm
+  "browser-agent LLM 判定コア — itonami dapp bundle（pure, :effects #{}）。
+
+  L2 Browser Agent の検索・LLM 判定（正本:
+  provider/browser-agent/src-clj/etzhayyim/browser_agent/nodes.cljk）:
+
+  - **資源の上限は閉じた定数**: max-search-results 8 / max-scrape-urls 6 /
+    max-iterations 2 / **quality-threshold 0.75**。
+  - **LLM は capability 明示必須**: 「browser-agent LLM requires an explicit
+    HTTP POST capability」—— 環境権限で勝手に呼ばない。
+  - **推論は Murakumo のみ**（ADR-2605215000。LLM_BASE_URL は Murakumo
+    loopback）。
+  - **fan-out は個別例外を分離**（1 件の失敗で全体を落とさない）。
+
+  bounds-ok: 1 = 検索 8・スクレイプ 6・反復 2 の上限内 / 0 = 超過
+  quality-gate: 1 = 品質 0.75 以上（入力は 100 倍整数）/ 0 = 未達
+  llm-admission のエラービット（0 = 実行可）:
+    1 :no-capability      HTTP POST capability が無い（拒否）
+    2 :not-murakumo       Murakumo でない（ADR-2605215000 違反）
+  fanout-isolation: 1 = 個別例外分離あり / 0 = 全体失敗（違反）
+
+  実行 host はスカラーのみ = KIR v3 / i64/direct ABI（kernel/selfhost 両対応）。
+
+  テストはゼロ引数 test-*、戻り 1/0:
+  <amu> test aiueos/browser_llm.cljk"
+  (:export [main bounds-ok quality-gate llm-admission fanout-isolation
+            test-bounds test-quality test-cap test-murakumo test-fanout
+            test-fail-closed]))
+
+(defn main [] :i64
+  0)
+
+(defn bounds-ok [n-search :i64 n-scrape :i64 n-iter :i64] :i64
+  (if (and (<= n-search 8) (<= n-scrape 6) (<= n-iter 2)) 1 0))
+
+(defn quality-gate [quality-x100 :i64] :i64
+  (if (>= quality-x100 75) 1 0))
+
+(defn- denied [ok :i64 bit :i64] :i64
+  (if (= ok 1) 0 bit))
+
+(defn llm-admission [has-http-post-cap :i64 is-murakumo :i64] :i64
+  (+ (denied has-http-post-cap 1)
+     (denied is-murakumo 2)))
+
+(defn fanout-isolation [per-item-errors :i64] :i64
+  (if (= per-item-errors 1) 1 0))
+
+;; --- tests（戻り 1 = pass） ------------------------------------------------
+
+(defn test-bounds [] :i64
+  ;; 8 / 6 / 2 の上限
+  (if (= (+ (bounds-ok 8 6 2) (bounds-ok 9 6 2) (bounds-ok 8 7 2) (bounds-ok 8 6 3)) 1) 1 0))
+
+(defn test-quality [] :i64
+  ;; 0.75 以上（100 倍整数）
+  (if (= (+ (quality-gate 75) (quality-gate 100) (quality-gate 74)) 2) 1 0))
+
+(defn test-cap [] :i64
+  ;; capability 明示が無いと拒否
+  (if (= (llm-admission 0 1) 1) 1 0))
+
+(defn test-murakumo [] :i64
+  ;; ADR-2605215000: 推論は Murakumo のみ
+  (if (= (llm-admission 1 0) 2) 1 0))
+
+(defn test-fanout [] :i64
+  ;; 個別例外を分離（1 件の失敗で全体を落とさない）
+  (if (= (+ (fanout-isolation 1) (fanout-isolation 0)) 1) 1 0))
+
+(defn test-fail-closed [] :i64
+  ;; capability 無し + 非 Murakumo は 3（両ビット）
+  (if (= (llm-admission 0 0) 3) 1 0))

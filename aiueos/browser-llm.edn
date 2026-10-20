@@ -1,0 +1,19 @@
+;; app-browser — itonami（dapp）の aiueos アプリ記述子（notes.edn 形）。
+;; 判定コアは aiueos/browser_llm.cljk（LLM capability・資源上限・品質判定）。
+;; 正本は provider/browser-agent/src-clj/etzhayyim/browser_agent/nodes.cljk。
+;; pure（:effects #{}）。
+{:aiueos/component :app/browser-llm
+ :aiueos/kind :app
+ :aiueos/trust :untrusted
+ :aiueos/source "browser_llm.cljk"
+ :aiueos/wasm "browser_llm.wasm"
+ :aiueos/entry "main"
+ :aiueos/args []
+ :aiueos/imports #{}
+ :aiueos/exports #{:app/main
+                   :app/bounds-ok
+                   :app/quality-gate
+                   :app/llm-admission
+                   :app/fanout-isolation}
+ :aiueos/effects #{}
+ :aiueos/limits {:memory-pages 16 :fuel 5000000}}

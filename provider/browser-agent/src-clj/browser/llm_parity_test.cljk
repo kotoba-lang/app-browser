@@ -1,0 +1,29 @@
+(ns browser.llm-parity-test
+  "aiueos/browser_llm.cljk（判定コア）と正本（nodes.cljk）の parity。
+  資源上限・quality 閾値・capability 明示・Murakumo 専用が変われば落ちる。"
+  (:require [clojure.test :refer [deftest is testing]]
+            [clojure.string :as str]
+            ["fs" :as fs]))
+
+(def src
+  (fs/readFileSync
+   (str/join "/" ["provider" "browser-agent" "src-clj" "etzhayyim"
+                  "browser_agent" "nodes.cljk"])
+   "utf8"))
+
+(deftest bounds-match-guest
+  (testing "guest test-bounds / test-quality: 上限 8 / 6 / 2 と品質 0.75"
+    (is (str/includes? src "max-search-results 8"))
+    (is (str/includes? src "max-scrape-urls 6"))
+    (is (str/includes? src "max-iterations 2"))
+    (is (str/includes? src "quality-threshold 0.75"))))
+
+(deftest llm-rules-match-guest
+  (testing "guest test-cap: capability 明示必須（環境権限で呼ばない）"
+    (is (str/includes? src "explicit HTTP POST capability"))
+    (is (str/includes? src ":browser-agent/llm-http-post")))
+  (testing "guest test-murakumo: ADR-2605215000 で推論は Murakumo のみ"
+    (is (str/includes? src "ADR-2605215000"))
+    (is (str/includes? src "Murakumo only")))
+  (testing "guest test-fanout: 個別例外を分離"
+    (is (str/includes? src "per-item exception isolation"))))
